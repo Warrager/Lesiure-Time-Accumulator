@@ -6,7 +6,7 @@
 	display: none;
 }
 
-.input_1, .input_2{
+input {
     width: 50px;
     text-align:center;
 }
