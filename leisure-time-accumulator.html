@@ -43,7 +43,7 @@
             
             <form class = "col-xs-12 col-md-4">
                 <h3> Break Allowance </h3>
-                <h3 class = "counter break" id = "break_allowance"> 0:00:00 </h3>
+                <h3 class = "counter break" id = "break_allowance">  </h3>
             </form>
         </div>
 
@@ -107,6 +107,20 @@ var counter = {"break": 0, "work": 0, "timer": 0},
     timer,
     alter = "";
 
+var temp = parseInt(localStorage.getItem('break_total'));
+if (!temp){
+    $('#break_allowance').html("0:00:00");
+}
+else {
+    $('#break_allowance').html(time_formatter(temp));
+    counter["break"] = temp;
+}
+
+window.onbeforeunload = function() {
+    localStorage.setItem('break_total', counter["break"]);
+}
+
+
 
 //Displays seconds in a hour:minute:second format
 function increment_counter(counter_type, ratio){
@@ -132,8 +146,10 @@ $('.top_bar').click(function(){
 
     if (button_type === "reset"){
         ratio = 0, counter["break"] = 0, counter["work"] = 0;
+        localStorage.setItem('break_total', 0)
         $('.counter.break').html('0:00:00');
         $('.counter.work').html('0:00:00');   
+        
         return;
     }
     if (button_type === "change-ratio"){
