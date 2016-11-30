@@ -84,7 +84,7 @@
 
         <div class = "row">
             <div class = "col-xs-12 col-md-12">
-                <form>
+                <form id = "timer_form">
                     <h3> Timer </h3>
                     <input type = "text" class = "timer hour"/>
                     <p> : </p>
@@ -102,7 +102,7 @@
                     <button type = "button" class = "timer_button start"> Start </button>
                     <button type = "button" class = "timer_button pause"> Pause </button>
                     <button type = "button" class = "timer_button stop"> Stop  </button>
-                    <button type = "button" class = "timer_button reset"> Reset </button>
+                    <button type = "button" class = "timer_button clear"> Clear </button>
                 </form>
             </div>
         </div>
@@ -132,6 +132,7 @@ var counter = {"break": 0, "work": 0, "timer": 0},
     ratio = 0,
     timer,
     accumulating = false,
+    timer_running = false,
     alter = "";
 
 var temp = parseInt(localStorage.getItem('break_total'));
@@ -211,7 +212,7 @@ $('.accumulator_button').click(function(){
     },1000);
 });
 
-/*
+
 //Alter
 $('.alter_1').click(function(){
     alter = $(this)[0].classList[1];    
@@ -227,20 +228,46 @@ $('.alter_2').click(function(){
     $(this)[0].classList[1] === "increase" ? counter[alter] += seconds : counter[alter]-= seconds;
     $('.counter.'+alter).html(time_formatter(counter[alter]));
 });
-*/
-/*
+
+
 //Timer
 $('.timer_button').click(function(){
-    if ($(this)[0].classList[1] === "start"){
+    var button_type = $(this)[0].classList[1];
+    $('.timer_button.start').prop('disabled', false);
+    //Timer Start
+    if (button_type === "start"){
+        timer_running = true;
+        $('.timer_button.start').prop('disabled', true);
         for (let x = 0; x < 3; x++){
             if ($('.timer.'+time_unit[x]).val()){
-                seconds += parseInt($('.timer.'+time_unit[x]).val()) * time_multiplier[x];
+                counter["timer"] += parseInt($('.timer.'+time_unit[x]).val()) * time_multiplier[x];
             }
         }
+        timer = setInterval(function() { 
+            $('#timer_display').html(time_formatter(counter["timer"]));
+            counter["timer"] -= 1;
+        },1000);
+        return;
     }
-    
+
+    //Timer Pause
+    if (timer_running){
+        timer_running = false;
+        clearInterval(timer);
+    }
+    //Timer Stop
+    if (button_type !== "pause"){
+        counter["timer"] = 0;
+        $('#timer_display').html("0:00:00");
+
+        //Timer Clear
+        if (button_type === "clear"){
+            var form = document.getElementById("timer_form");
+        form.reset();
+        }
+    }
 });
-*/
+
 
 
 //Checks if inputted value is an int
