@@ -1,5 +1,10 @@
 
-function time_formatter(seconds){
+function time_formatter(seconds, deca_seconds = false){
+    var add_on = "";
+    if (deca_seconds){
+        add_on = seconds.toString().slice(-1);
+        seconds = Math.floor(seconds / 10);
+    }
     var negative = "";
     if (seconds < 0){
         seconds *= -1;
@@ -17,7 +22,11 @@ function time_formatter(seconds){
 
     minute = padder(minute.toString(), 2);   
     second = padder(seconds.toString(), 2);
-    return (negative + hour + ":" + minute + ":" + second);
+    var return_str = negative + hour + ":" + minute + ":" + second;
+    if (!deca_seconds){
+        return return_str;
+    }
+    return (return_str + ":" + add_on);
 }
 
 

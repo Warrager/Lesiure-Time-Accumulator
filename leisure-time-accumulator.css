@@ -15,6 +15,10 @@ p{
     display: inline-block;
 }
 
+.lap{
+    display: block;
+}
+
 #ratio_div {
     margin-top: 21px;
 }
