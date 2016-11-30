@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Leisure Time Accumulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="leisure-time-accumulator.css" media="screen" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script type="text/javascript" src='file:///C:/Users/x7/Documents/Programming/html-css-js/jquery-3.1.1.min.js'></script>
+</head>
+<body>
+
+<div class= "container-fluid"> 
+    <div id = "main">
+        <h1> Leisure Time Accumulator </h1>
+
+        <div class = "row">
+            <div class = "col-xs-12 col-md-12" id = "top_toolbar">
+                <button type = "button" class = "top_bar reset"> Reset </button>
+                <button type = "button" class = "top_bar work"> Work </button>
+                <button type = "button" class = "top_bar pause"> Pause </button>
+                <button type = "button" class = "top_bar break"> Break </button>
+                <button type = "button" class = "top_bar change-ratio"> Change Ratio </button>
+            </div> 
+        </div>   
+
+        <div class = "row">
+            <div class = "col-xs-12 col-md-4">
+                <h3> Total Time Worked </h3>
+                <h3 class = "counter work" id = "work_time"> 0:00:00 </h3>
+            </div>
+
+            <div class = "col-xs-12 col-md-4">
+                <h3> Work to Leisure Ratio </h3>
+                <div id = "ratio_div">
+                    <input type = "text" class = "input_1" id = "ratio-work"/>
+                    <p> : </p>
+                    <input type = "text" class = "input_1" id = "ratio-break" />
+                </div>
+            </div>
+            
+            <div class = "col-xs-12 col-md-4">
+                <h3> Break Allowance </h3>
+                <h3 class = "counter break" id = "break_allowance"> 0:00:00 </h3>
+            </div>
+        </div>
+
+        <div class = "row">
+            <div class = "col-xs-12 col-md-12" id = "bottom_toolbar">
+                <button type = "button" class = "button alter work"> Alter Work </button>
+                <button type = "button" class = "button alarm"> Alarm </button>
+                <button type = "button" class = "button stopwatch"> Stopwatch </button>
+                <button type = "button" class = "button timer"> Timer </button>
+                <button type = "button" class = "button alter break"> Alter Break </button>
+            </div>
+        </div>
+
+        <div class = "row">
+            <div class = "col-xs-12 col-md-12">
+
+            </div>
+        </div>
+
+        <div class = "row">
+            <div class = "col-xs-12">
+                <h3 id = "notification"> </h3>
+            </div>        
+        </div>
+    </div>
+</div>
+<script>
+
+$('button').prop('disabled',false);
+$('input').prop('disabled',false);
+
+var ratio = 0;
+
+var counter = {"break": 0, "work": 0, "timer": 0};
+var timer;
+
+function padder(str, limit){
+    if (str.length === limit){
+        return str;
+    }
+    else {
+        return padder("0"+str, limit);
+    }
+}
+
+
+//Checks if inputted value is an int
+var num_arr = ['1','2','3','4','5','6','7','8','9','0'];
+$('input').on('input', function(){
+    var input = $(this).val();
+    if (input.length > 2){
+        $(this).val(input.slice(input.length - 2));
+    }
+    for (var x = 0, y = input.length; x < y; x++){
+        if (num_arr.indexOf(input[x]) === -1){
+            $(this).val("");
+        }
+    }
+});
+
+
+//Displays seconds in a hour:minute:second format
+function time_formatter(seconds){
+    var negative = "";
+    if (seconds < 0){
+        seconds *= -1;
+        negative = "-";
+    }
+    var hour = 0, minute = 0, second;
+    if (seconds / 3600 >= 1){
+        hour = Math.floor(seconds / 3600);
+        seconds %= 3600;
+    }
+    if (seconds / 60 >= 1){ 
+        minute = (Math.floor(seconds / 60));
+        seconds %= 60;
+    }
+
+    minute = padder(minute.toString(), 2);   
+    second = padder(seconds.toString(), 2);
+    return (negative + hour + ":" + minute + ":" + second);
+}
+
+
+//Displays seconds in a hour:minute:second format
+function increment_counter(counter_type, ratio){
+    if (counter_type === "work") {
+        counter["work"] += 1;
+        counter["break"] += ratio;
+       $('.counter.work').html(time_formatter(counter["work"]));
+       $('.counter.break').html(time_formatter(Math.floor(counter["break"])));
+    }
+    else if (counter_type === "break") {
+        counter["break"] -= 1;
+        $('.counter.break').html(time_formatter(Math.floor(counter["break"])));
+    }
+}
+
+
+//on .top_bar button click
+$('.top_bar').click(function(){
+    var button_type = $(this)[0].classList[1];
+    $('.top_bar').prop('disabled',false);
+    $(".input_1").prop('disabled', false);
+
+    clearInterval(timer);
+
+    if (button_type === "reset"){
+        ratio = 0, counter["break"] = 0, counter["work"] = 0;
+        $('.counter.break').html('0:00:00');
+        $('.counter.work').html('0:00:00');   
+        return;
+    }
+
+    if (button_type === "change-ratio"){
+        ratio = 0;
+        return;
+    }
+
+    if (button_type === 'pause'){
+        $(".input_1").prop('disabled', true);
+        return;
+    }
+
+    //If the button pushed is work / break
+    if (!ratio){
+        var x  = parseInt($('#ratio-break').val()), y = parseInt($('#ratio-work').val());
+
+        ratio =  x / y;
+        if (ratio === 0 || isNaN(ratio) || !isFinite(ratio)){
+            ratio = 0;
+            return;
+        }
+    }
+
+    $(this).prop('disabled', true);
+    $(".input_1").prop('disabled', true);
+
+    timer = setInterval(function() { 
+        increment_counter(button_type, ratio) 
+    },1000);
+});
+
+$('.button.alter').click(function(){
+    
+});
+
+
+
+
+</script>
+</body>
+</html>

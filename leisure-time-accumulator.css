@@ -1,0 +1,20 @@
+#main{
+    text-align:center;
+}
+
+.invisible{
+	display: none;
+}
+
+.input_1, .input_2{
+    width: 50px;
+    text-align:center;
+}
+
+#ratio_div {
+    margin-top: 21px;
+}
+
+#ratio_div p{
+    display: inline-block;
+}
