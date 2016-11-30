@@ -11,10 +11,10 @@
     text-align:center;
 }
 
-#ratio_div {
-    margin-top: 21px;
+p{
+    display: inline-block;
 }
 
-#ratio_div p{
-    display: inline-block;
+#ratio_div {
+    margin-top: 21px;
 }
