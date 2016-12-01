@@ -6,6 +6,10 @@
 	display: none;
 }
 
+.accumulator_button.change-ratio{
+    vertical-align: top;
+}
+
 input {
     width: 50px;
     text-align:center;
