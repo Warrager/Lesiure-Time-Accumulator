@@ -211,7 +211,9 @@ $('.accumulator_button').click(function(){
     }
     //Accumulator Pause
     if (button_type === 'pause'){
-        $('.accumulator_input').prop('disabled', true);
+        if (active["accumulator"]){
+            $('.accumulator_input').prop('disabled', true);
+        }
         return;
     }
     //Accumulator Break / Work
@@ -267,7 +269,6 @@ $('.timer_button').click(function(){
     $('.timer_button.start').prop('disabled', false);
     //Timer Start
     if (button_type === "start"){
-        
         active["timer"] = true;
         $('.timer_button.start').prop('disabled', true);
         if (!counter["timer"]){
@@ -289,18 +290,23 @@ $('.timer_button').click(function(){
     }
 
     //Timer Pause
-    if (active["timer"]){
+    if (button_type === "pause"){
+        if (!active["timer"]){
+            $('.timer_input').prop('disabled', false);
+        }
         active["timer"] = false;
         clearInterval(countdown["timer"]);
-        
     }
+    
     //Timer Stop
     if (button_type !== "pause"){
         counter["timer"] = 0;
+        active["timer"] = false;
         $('#timer_display').html("0:00:00");
         $('.timer_input').prop('disabled', false);
         $('#timer_input_form').removeClass('invisible');
         $('#timer_display').addClass('invisible');
+        clearInterval(countdown["timer"]);
 
         //Timer Clear
         if (button_type === "clear"){
