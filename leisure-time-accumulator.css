@@ -11,6 +11,10 @@ input {
     text-align:center;
 }
 
+button{
+    width: 100px;
+}
+
 p{
     display: inline-block;
 }
