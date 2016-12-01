@@ -45,79 +45,87 @@
         </div>
 
         <form class = "col-xs-12 col-md-12" id = "bottom_toolbar">
-            <button type = "button" id = "alarm_tab"> Alarm </button>
-            <button type = "button" id = "alter_tab"> Alter </button>
-            <button type = "button" id = "stopwatch_tab"> Stopwatch </button>
-            <button type = "button" id = "timer_tab"> Timer </button>
+            <button type = "button" class = "second_bar" id = "alarm_tab"> Alarm </button>
+            <button type = "button" class = "second_bar" id = "alter_tab"> Alter </button>
+            <button type = "button" class = "second_bar" id = "stopwatch_tab"> Stopwatch </button>
+            <button type = "button" class = "second_bar" id = "timer_tab"> Timer </button>
         </form>
             
-        <form class = "col-xs-12 col-md-12">
-            <h3> Alter Work / Break </h3>
-            <input type = "text" class = "alter hour"/>
-            <p> : </p>
-            <input type = "text" class = "alter minute"/>
-        </form>
+        <div class = "invisible tab" id = "alter_div">
+            <form class = "col-xs-12 col-md-12">
+                <h3> Alter Work / Break </h3>
+                <input type = "text" class = "alter_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "alter_input minute"/>
+            </form>
 
-        <form class = "col-xs-12 col-md-12">
-            <button type = "button" class = "alter_1 work"> Work </button>
-            <button type = "button" class = "alter_1 break"> Break</button>
-        </form>
+            <form class = "col-xs-12 col-md-12">
+                <button type = "button" class = "alter_1 work"> Work </button>
+                <button type = "button" class = "alter_1 break"> Break</button>
+            </form>
 
-        <form class = "col-xs-12 col-md-12">
-            <button type = "button" class = "alter_2 increase"> Increase </button>
-            <button type = "button" class = "alter_2 decrease"> Decrease </button>
-        </form>
-
-        <form id = "timer_form" class = "col-xs-12 col-md-12">
-            <h3> Timer </h3>
-            <input type = "text" class = "timer_input hour"/>
-            <p> : </p>
-            <input type = "text" class = "timer_input minute"/>
-            <p> : </p>
-            <input type = "text" class = "timer_input second"/>
-        </form>
-
-        <form class = "col-xs-12">
-            <button type = "button" class = "timer_button start"> Start </button>
-            <button type = "button" class = "timer_button pause"> Pause </button>
-            <button type = "button" class = "timer_button stop"> Stop  </button>
-            <button type = "button" class = "timer_button clear"> Clear </button>
-        </form>
-
-        <div class = "col-xs-12">
-            <h3 id = "timer_display"> 0:00:00 </h3>
+            <form class = "col-xs-12 col-md-12">
+                <button type = "button" class = "alter_2 increase"> Increase </button>
+                <button type = "button" class = "alter_2 decrease"> Decrease </button>
+            </form>
         </div>
 
-        <div class = "col-xs-12">
-            <h3> Stopwatch </h3>
-            <h3 id = "stopwatch_display"> 0:00:00 </h3>
-        </div>
- 
-        <form class = "col-xs-12">
-            <button type = "button" class = "stopwatch start"> Start </button>
-            <button type = "button" class = "stopwatch pause"> Pause </button>
-            <button type = "button" class = "stopwatch stop"> Stop </button>
-            <button type = "button" class = "stopwatch lap_button"> Lap </button>
-        </form>
+        <div class = "invisible tab" id = "timer_div">
+            <form class = "col-xs-12 col-md-12">
+                <h3> Timer </h3>
+                <input type = "text" class = "timer_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "timer_input minute"/>
+                <p> : </p>
+                <input type = "text" class = "timer_input second"/>
+            </form>
 
-        <div class = "col-xs-12">
-            <div id = "laps">
+            <form class = "col-xs-12">
+                <button type = "button" class = "timer_button start"> Start </button>
+                <button type = "button" class = "timer_button pause"> Pause </button>
+                <button type = "button" class = "timer_button stop"> Stop  </button>
+                <button type = "button" class = "timer_button clear"> Clear </button>
+            </form>
 
+            <div class = "col-xs-12">
+                <h3 id = "timer_display"> 0:00:00 </h3>
             </div>
         </div>
 
-        <form id = "alarm_form" class = "col-xs-12">
-            <h3> Alarm Clock </h3>
-            <input type = "text" class = "alarm hour"/>
-            <p> : </p>
-            <input type = "text" class = "alarm minute"/>
-        </form>
+        <div class = "invisible tab" id = "stopwatch_div">
+            <div class = "col-xs-12">
+                <h3> Stopwatch </h3>
+                <h3 id = "stopwatch_display"> 0:00:00 </h3>
+            </div>
+    
+            <form class = "col-xs-12">
+                <button type = "button" class = "stopwatch_button start"> Start </button>
+                <button type = "button" class = "stopwatch_button pause"> Pause </button>
+                <button type = "button" class = "stopwatch_button stop"> Stop </button>
+                <button type = "button" class = "stopwatch_button lap_button"> Lap </button>
+            </form>
 
-        <form class = "col-xs-12">
-            <button type = "button" class = "alarm start"> Start </button>
-            <button type = "button" class = "alarm stop"> Stop </button>
-            <button type = "button" class = "alarm clear"> Clear </button>
-        </form>
+            <div class = "col-xs-12">
+                <div id = "laps">
+
+                </div>
+            </div>
+        </div>
+
+        <div class = "invisible tab" id = "alarm_div">
+            <form class = "col-xs-12" id = "alarm_form">
+                <h3> Alarm Clock </h3>
+                <input type = "text" class = "alarm_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "alarm_input minute"/>
+            </form>
+
+            <form class = "col-xs-12">
+                <button type = "button" class = "alarm_button start"> Start </button>
+                <button type = "button" class = "alarm_button stop"> Stop </button>
+                <button type = "button" class = "alarm_button clear"> Clear </button>
+            </form>
+        </div>
         
         <div class = "col-xs-12">
             <h3 id = "notification"> </h3>
@@ -139,8 +147,7 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
     time_unit = ['hour','minute','second'],
     time_multiplier = [3600, 60, 1],
     ratio = 0,
-    timer,
-    //alarm,
+    last_tab = "",
     alter = "";
 
 var temp = parseInt(localStorage.getItem('break_total'));
@@ -186,7 +193,9 @@ $('.accumulator_button').click(function(){
 
     //Accumulator Reset
     if (button_type === "reset"){
-        confirm("Will reset all accumulated break time.");
+        if (!confirm("Will reset all accumulated break time.")){
+            return;
+        }
         ratio = 0, counter["break"] = 0, counter["work"] = 0;
         localStorage.setItem('break_total', 0)
         $('.counter.break').html('0:00:00');
@@ -223,6 +232,16 @@ $('.accumulator_button').click(function(){
 });
 
 
+//Bottom_Bar
+$('.second_bar').click(function(){
+    
+    $("#" + last_tab + '_div').addClass('invisible');
+    var tab = ($(this).attr('id')).replace(/_tab/g, '');
+    last_tab = tab;
+    $("#" + tab + '_div').removeClass('invisible');
+});
+
+
 //Alter
 $('.alter_1').click(function(){
     alter = $(this)[0].classList[1];    
@@ -231,8 +250,8 @@ $('.alter_1').click(function(){
 $('.alter_2').click(function(){
     var seconds = 0;
     for (let x = 0; x < 2; x++){
-        if ($('.alter.'+time_unit[x]).val()){
-            seconds += parseInt($('.alter.'+time_unit[x]).val()) * time_multiplier[x];
+        if ($('.alter_input.'+time_unit[x]).val()){
+            seconds += parseInt($('.alter_input.'+time_unit[x]).val()) * time_multiplier[x];
         }
     }
     $(this)[0].classList[1] === "increase" ? counter[alter] += seconds : counter[alter]-= seconds;
@@ -287,13 +306,14 @@ $('.timer_button').click(function(){
 
 
 //Stopwatch
-$('.stopwatch').click(function(){
+$('.stopwatch_button').click(function(){
     var button_type = $(this)[0].classList[1];
-    $('.stopwatch').prop('disabled', false);
+    $('.stopwatch_button').prop('disabled', false);
+
     //Stopwatch Start
     if (button_type === "start"){
         active["stopwatch"] = true;
-        $('.stopwatch.start').prop('disabled', true);
+        $('.stopwatch_button.start').prop('disabled', true);
         stopwatch = setInterval(function() { 
             counter["stopwatch"] += 1;
             $('#stopwatch_display').html(time_formatter(counter["stopwatch"], true));       
@@ -319,41 +339,43 @@ $('.stopwatch').click(function(){
         active["stopwatch"] = false;
         clearInterval(stopwatch);
     }
+
     //Stopwatch Stop
     if (button_type === "stop"){
         counter["stopwatch"] = 0;
         $('#stopwatch_display').html('0:00:00');
         $('#laps').empty();
     }
-    
 });
 
 
 //Alarm
-$('.alarm.hour').on('input', function(){
+$('.alarm_input.hour').on('input', function(){
     if (parseInt($(this).val()) > 24){
         $(this).val("");
     }
 });
-$('.alarm.minute').on('input', function(){
+$('.alarm_input.minute').on('input', function(){
     if (parseInt($(this).val()) > 59){
         $(this).val("");
     }
 });
 
-$('.alarm').click(function(){
+$('.alarm_button').click(function(){
     var button_type = $(this)[0].classList[1];
+    $('.alarm_button.start').prop('disabled', false);
+    $('.alarm_input').prop('disabled', false);
+    
     //Alarm Start
     if (button_type === 'start'){
-        if (active["alarm"]){
-            return;
-        }
         var now = new Date(),
             future = new Date(),
-            hours = parseInt($('.alarm.hour').val()),
-            minutes = parseInt($('.alarm.minute').val());
+            hours = parseInt($('.alarm_input.hour').val()),
+            minutes = parseInt($('.alarm_input.minute').val());
         active["alarm"] = true;
 
+        $('.alarm_input').prop('disabled', true);
+        $('.alarm_button.start').prop('disabled', true);
         future.setHours(hours, minutes,0); 
         difference = future.getTime() - now.getTime();
 
@@ -365,16 +387,20 @@ $('.alarm').click(function(){
         $('#notification').append("<p>" + future + "</p>");
         countdown["alarm"] = setTimeout(function(){
             active["alarm"] = false;
+            $('.alarm_input').prop('disabled', false);
+            $('.alarm_button.start').prop('disabled', false);
             alert ("Finished placeholder");
             $('#notification').empty();
         }, difference);
     }
+    
     //Alarm Stop
     else if (button_type === "stop"){
         active["alarm"] = false;
         clearTimeout(countdown["alarm"]);
         $('#notification').empty();
     }
+
     //Alarm Clear 
     else if (button_type === "clear"){
         active["alarm"] = false;
