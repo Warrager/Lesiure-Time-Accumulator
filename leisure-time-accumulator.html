@@ -71,14 +71,18 @@
         </div>
 
         <div class = "invisible tab" id = "timer_div">
-            <form class = "col-xs-12 col-md-12">
-                <h3> Timer </h3>
+            <h3> Timer </h3>
+            <form class = "col-xs-12 col-md-12" id = "timer_input_form">
                 <input type = "text" class = "timer_input hour"/>
                 <p> : </p>
                 <input type = "text" class = "timer_input minute"/>
                 <p> : </p>
                 <input type = "text" class = "timer_input second"/>
             </form>
+
+            <div class = "col-xs-12">
+                <h3 class = "invisible" id = "timer_display"> 0:00:00 </h3>
+            </div>
 
             <form class = "col-xs-12">
                 <button type = "button" class = "timer_button start"> Start </button>
@@ -87,9 +91,7 @@
                 <button type = "button" class = "timer_button clear"> Clear </button>
             </form>
 
-            <div class = "col-xs-12">
-                <h3 id = "timer_display"> 0:00:00 </h3>
-            </div>
+            
         </div>
 
         <div class = "invisible tab" id = "stopwatch_div">
@@ -114,7 +116,7 @@
 
         <div class = "invisible tab" id = "alarm_div">
             <form class = "col-xs-12" id = "alarm_form">
-                <h3> Alarm Clock </h3>
+                <h3> 24 Hour Alarm Clock </h3>
                 <input type = "text" class = "alarm_input hour"/>
                 <p> : </p>
                 <input type = "text" class = "alarm_input minute"/>
@@ -234,7 +236,6 @@ $('.accumulator_button').click(function(){
 
 //Bottom_Bar
 $('.second_bar').click(function(){
-    
     $("#" + last_tab + '_div').addClass('invisible');
     var tab = ($(this).attr('id')).replace(/_tab/g, '');
     last_tab = tab;
@@ -266,6 +267,7 @@ $('.timer_button').click(function(){
     $('.timer_button.start').prop('disabled', false);
     //Timer Start
     if (button_type === "start"){
+        
         active["timer"] = true;
         $('.timer_button.start').prop('disabled', true);
         if (!counter["timer"]){
@@ -281,6 +283,8 @@ $('.timer_button').click(function(){
             $('#timer_display').html(time_formatter(counter["timer"]));
             
         },1000);
+        $('#timer_input_form').addClass('invisible');
+        $('#timer_display').removeClass('invisible');
         return;
     }
 
@@ -295,10 +299,12 @@ $('.timer_button').click(function(){
         counter["timer"] = 0;
         $('#timer_display').html("0:00:00");
         $('.timer_input').prop('disabled', false);
+        $('#timer_input_form').removeClass('invisible');
+        $('#timer_display').addClass('invisible');
 
         //Timer Clear
         if (button_type === "clear"){
-            var form = document.getElementById("timer_form");
+            var form = document.getElementById("timer_input_form");
             form.reset();
         }
     }
@@ -350,17 +356,6 @@ $('.stopwatch_button').click(function(){
 
 
 //Alarm
-$('.alarm_input.hour').on('input', function(){
-    if (parseInt($(this).val()) > 24){
-        $(this).val("");
-    }
-});
-$('.alarm_input.minute').on('input', function(){
-    if (parseInt($(this).val()) > 59){
-        $(this).val("");
-    }
-});
-
 $('.alarm_button').click(function(){
     var button_type = $(this)[0].classList[1];
     $('.alarm_button.start').prop('disabled', false);
@@ -412,20 +407,23 @@ $('.alarm_button').click(function(){
 });
 
 
-//Checks if inputted value is an int
-var num_arr = ['1','2','3','4','5','6','7','8','9','0'];
+//Input Checking
 $('input').on('input', function(){
-    var input = $(this).val();
-    if (input.length > 2){
-        $(this).val(input.slice(input.length - 2));
+    var pos = $(this)[0].classList[1],
+        input = ($(this).val()).replace(/[^0-9]/g, ''),
+        filtered = input.slice(input.length - 2);
+    if (((parseInt(input) > 60)) && (pos === "second") || (pos === "minute")){
+        $(this).val(filtered.slice(-1));
+        return;
     }
-    for (var x = 0, y = input.length; x < y; x++){
-        if (num_arr.indexOf(input[x]) === -1){
-            $(this).val("");
-        }
-    }
-});
+    if (($(this)[0].classList[0] === "alarm_input") &&
+        (pos === "hour") && (parseInt(filtered) > 24)){
 
+        $(this).val(filtered.slice(-1));
+        return;    
+    }
+    $(this).val(filtered);
+});
 
 </script>
 </body>
