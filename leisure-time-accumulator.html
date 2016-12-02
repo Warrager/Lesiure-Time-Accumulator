@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="leisure-time-accumulator.css" media="screen" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src= "extra.js"> </script>
+<script type="text/javascript" src = "sounds.js"> </script>
 <script type="text/javascript" src='file:///C:/Users/x7/Documents/Programming/html-css-js/jquery-3.1.1.min.js'></script>
 </head>
 <body>
@@ -50,7 +51,7 @@
             <button type = "button" class = "second_bar" id = "stopwatch_tab"> Stopwatch </button>
             <button type = "button" class = "second_bar" id = "timer_tab"> Timer </button>
         </form>
-            
+                
         <div class = "invisible tab" id = "alter_div">
             <form class = "col-xs-12 col-md-12">
                 <h3> Alter Work / Break </h3>
@@ -152,20 +153,24 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
     last_tab = "",
     alter = "";
 
-var temp = parseInt(localStorage.getItem('break_total'));
-if (!temp){
-    $('#break_allowance').html("0:00:00");
+(function(){
+    var temp = parseInt(localStorage.getItem('break_total'));
+    if (!temp){
+        $('#break_allowance').html("0:00:00");
+    }
+    else {
+        $('#break_allowance').html(time_formatter(temp));
+        counter["break"] = temp;
 }
-else {
-    $('#break_allowance').html(time_formatter(temp));
-    counter["break"] = temp;
-}
+}());
 
-
+//Saves currently accumulated break time to localstrorage.
 window.onbeforeunload = function() {
     localStorage.setItem('break_total', counter["break"]);
+    $("input:text").val("");
 }
 
+//
 
 //Displays seconds in a hour:minute:second format
 function increment_counter(counter_type, ratio){
@@ -282,7 +287,13 @@ $('.timer_button').click(function(){
         countdown["timer"] = setInterval(function() { 
             counter["timer"] -= 1;
             $('#timer_display').html(time_formatter(counter["timer"]));
-            
+            //When finished, start timer song, and creates a stop song button
+            if (counter["timer"] === 0){
+                alarm_song.play();
+                $('.timer_button').prop('disabled', true);
+                clearInterval(countdown["timer"]);
+                $('#notification').append('<button type = "button" id = "stop_timer">Stop Timer </button>');
+           }
         },1000);
         $('#timer_input_form').addClass('invisible');
         $('#timer_display').removeClass('invisible');
@@ -314,6 +325,15 @@ $('.timer_button').click(function(){
             form.reset();
         }
     }
+});
+
+//Stopping timer song
+$('#notification').on ('click', '#stop_timer', function(){
+    $('.timer_button').prop('disabled', false);
+    $('.timer_input').prop('disabled', false);
+    alarm_song.pause();
+    alarm_song.currentTime = 0;
+    $('#stop_timer').remove();
 });
 
 
@@ -370,6 +390,7 @@ $('.alarm_button').click(function(){
     //Alarm Start
     if (button_type === 'start'){
         var now = new Date(),
+            am_pm = "",
             future = new Date(),
             hours = parseInt($('.alarm_input.hour').val()),
             minutes = parseInt($('.alarm_input.minute').val());
@@ -384,14 +405,22 @@ $('.alarm_button').click(function(){
             future.setHours(hours + 24, minutes); 
             difference = future.getTime() - now.getTime();
         }
-        $('#notification').append("<p> alarm active </p>");
-        $('#notification').append("<p>" + future + "</p>");
+        if (hours > 12){
+            am_pm = "PM";
+            hours -= 12;
+        } 
+        else {
+            am_pm = "AM";
+        }
+
+        $('#notification').append(
+            `<p id = "alarm_notification">Alarm set for ${padder(hours, 2)}:${padder(minutes, 2)} ${(am_pm)} </p>`);
         countdown["alarm"] = setTimeout(function(){
             active["alarm"] = false;
             $('.alarm_input').prop('disabled', false);
             $('.alarm_button.start').prop('disabled', false);
             alert ("Finished placeholder");
-            $('#notification').empty();
+            $('#alarm_notification').remove();
         }, difference);
     }
     
@@ -399,14 +428,14 @@ $('.alarm_button').click(function(){
     else if (button_type === "stop"){
         active["alarm"] = false;
         clearTimeout(countdown["alarm"]);
-        $('#notification').empty();
+        $('#alarm_notification').remove();
     }
 
     //Alarm Clear 
     else if (button_type === "clear"){
         active["alarm"] = false;
         clearTimeout(countdown["alarm"]);
-        $('#notification').empty();
+        $('#alarm_notification').remove();
         var form = document.getElementById("alarm_form");
         form.reset();        
     }
@@ -418,7 +447,7 @@ $('input').on('input', function(){
     var pos = $(this)[0].classList[1],
         input = ($(this).val()).replace(/[^0-9]/g, ''),
         filtered = input.slice(input.length - 2);
-    if (((parseInt(input) > 60)) && (pos === "second") || (pos === "minute")){
+    if (((parseInt(input) > 60)) && ((pos === "second") || (pos === "minute"))){
         $(this).val(filtered.slice(-1));
         return;
     }
