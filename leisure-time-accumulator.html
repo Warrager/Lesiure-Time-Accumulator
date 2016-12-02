@@ -131,7 +131,7 @@
         </div>
         
         <div class = "col-xs-12">
-            <h3 id = "notification"> </h3>
+            <div id = "notification"> </div>
         </div>        
     </div>
 </div>
@@ -161,7 +161,7 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
     else {
         $('#break_allowance').html(time_formatter(temp));
         counter["break"] = temp;
-}
+    }
 }());
 
 //Saves currently accumulated break time to localstrorage.
@@ -170,7 +170,6 @@ window.onbeforeunload = function() {
     $("input:text").val("");
 }
 
-//
 
 //Displays seconds in a hour:minute:second format
 function increment_counter(counter_type, ratio){
@@ -270,12 +269,9 @@ $('.alter_2').click(function(){
 //Timer
 $('.timer_button').click(function(){
     var button_type = $(this)[0].classList[1];
-    $('.timer_input').prop('disabled', true);
-    $('.timer_button.start').prop('disabled', false);
+
     //Timer Start
     if (button_type === "start"){
-        active["timer"] = true;
-        $('.timer_button.start').prop('disabled', true);
         if (!counter["timer"]){
             for (let x = 0; x < 3; x++){
                 if ($('.timer_input.'+time_unit[x]).val()){
@@ -283,17 +279,28 @@ $('.timer_button').click(function(){
                 }
             }
         }
+        if (counter["timer"].isNaN || counter["timer"] === 0){
+            return;
+        }
+
+        active["timer"] = true;
+        $('.timer_input').prop('disabled', true);
+        $('.timer_button.start').prop('disabled', true);
         $('#timer_display').html(time_formatter(counter["timer"]));
+
+        //Countdown
         countdown["timer"] = setInterval(function() { 
             counter["timer"] -= 1;
             $('#timer_display').html(time_formatter(counter["timer"]));
+
             //When finished, start timer song, and creates a stop song button
             if (counter["timer"] === 0){
                 alarm_song.play();
                 $('.timer_button').prop('disabled', true);
                 clearInterval(countdown["timer"]);
-                $('#notification').append('<button type = "button" id = "stop_timer">Stop Timer </button>');
-           }
+                $('#notification').append('<button type = "button" class = "finished" id = "timer"> Timer Finished </button>');
+                $('.finished').addClass('test');
+        }
         },1000);
         $('#timer_input_form').addClass('invisible');
         $('#timer_display').removeClass('invisible');
@@ -301,41 +308,29 @@ $('.timer_button').click(function(){
     }
 
     //Timer Pause
-    if (button_type === "pause"){
+    else {
+        $('.timer_button.start').prop('disabled', false);
         if (!active["timer"]){
             $('.timer_input').prop('disabled', false);
         }
         active["timer"] = false;
         clearInterval(countdown["timer"]);
-    }
-    
-    //Timer Stop
-    if (button_type !== "pause"){
-        counter["timer"] = 0;
-        active["timer"] = false;
-        $('#timer_display').html("0:00:00");
-        $('.timer_input').prop('disabled', false);
-        $('#timer_input_form').removeClass('invisible');
-        $('#timer_display').addClass('invisible');
-        clearInterval(countdown["timer"]);
 
-        //Timer Clear
-        if (button_type === "clear"){
-            var form = document.getElementById("timer_input_form");
-            form.reset();
+        //Timer Stop
+        if (button_type !== "pause"){
+            counter["timer"] = 0;
+            $('#timer_display').html("0:00:00");
+            $('.timer_input').prop('disabled', false);
+            $('#timer_input_form').removeClass('invisible');
+            $('#timer_display').addClass('invisible');
+
+            //Timer Clear
+            if (button_type === "clear"){
+                var form = document.getElementById("timer_input_form");
+                form.reset();
+            }
         }
     }
-});
-
-//Stopping timer song
-$('#notification').on ('click', '#stop_timer', function(){
-    $('.timer_button').prop('disabled', false);
-    $('.timer_input').prop('disabled', false);
-    alarm_song.pause();
-    alarm_song.currentTime = 0;
-    $('#stop_timer').remove();
-    $('#timer_input_form').removeClass('invisible');
-    $('#timer_display').addClass('invisible');
 });
 
 
@@ -387,7 +382,6 @@ $('.stopwatch_button').click(function(){
 $('.alarm_button').click(function(){
     var button_type = $(this)[0].classList[1];
     
-    
     //Alarm Start
     if (button_type === 'start'){
         var am_pm,
@@ -397,8 +391,20 @@ $('.alarm_button').click(function(){
             minutes = parseInt($('.alarm_input.minute').val());
         active["alarm"] = true;
 
+        if (isNaN(hours) && isNaN(minutes)){
+            return;
+        }
+
+        hours = hours || 0;
+        minutes = minutes || 0;
+
+        $('.alarm_input.hour').val(padder(hours.toString(),2));
+        $('.alarm_input.minute').val(padder(minutes.toString(),2));
+        
         $('.alarm_button.start').prop('disabled', true);
         $('.alarm_input').prop('disabled', true);
+
+        //Set timer
         future.setHours(hours, minutes,0); 
         difference = future.getTime() - now.getTime();
 
@@ -415,19 +421,18 @@ $('.alarm_button').click(function(){
             am_pm = "AM";
         }
 
-        var str = `<p id = 'alarm_notification'> ${padder((hours).toString(), 2)}:${padder((minutes).toString(), 2)} ${am_pm} Alarm set </p> </br>`;
-        
-
+        var str = `<p id = 'alarm_notification'> Alarm set for ${padder((hours).toString(), 2)}:${padder((minutes).toString(), 2)} ${am_pm} </p> </br>`;
         $('#notification').prepend(str);
-
 
         countdown["alarm"] = setTimeout(function(){
             active["alarm"] = false;
+            alarm_song.play();
             $('.alarm_input').prop('disabled', false);
             $('.alarm_button.start').prop('disabled', false);
             $('#alarm_notification').remove();
-            alert ("Finished placeholder");
-        }, difference);
+            $('#notification').append("<button type = 'button' class = 'finished' id = 'alarm'> Alarm Finished </button>");
+            $('.finished').addClass('test');
+         }, difference);
     }
     
     //Alarm Stop
@@ -445,9 +450,20 @@ $('.alarm_button').click(function(){
             form.reset();
         }
     }
+});
 
-    
-
+//Stops song when clicked on
+$('#notification').on ('click', '.finished', function(){
+    var id = "." + $(this).attr('id') + "_";
+    $(id + 'button').prop('disabled', false);
+    $(id + 'input').prop('disabled', false);
+    alarm_song.pause();
+    alarm_song.currentTime = 0;
+    $(this).remove();
+    if (id = ".timer_"){
+        $('#timer_input_form').removeClass('invisible');
+        $('#timer_display').addClass('invisible');
+    }
 });
 
 
