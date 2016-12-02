@@ -334,6 +334,8 @@ $('#notification').on ('click', '#stop_timer', function(){
     alarm_song.pause();
     alarm_song.currentTime = 0;
     $('#stop_timer').remove();
+    $('#timer_input_form').removeClass('invisible');
+    $('#timer_display').addClass('invisible');
 });
 
 
@@ -384,20 +386,19 @@ $('.stopwatch_button').click(function(){
 //Alarm
 $('.alarm_button').click(function(){
     var button_type = $(this)[0].classList[1];
-    $('.alarm_button.start').prop('disabled', false);
-    $('.alarm_input').prop('disabled', false);
+    
     
     //Alarm Start
     if (button_type === 'start'){
-        var now = new Date(),
-            am_pm = "",
+        var am_pm,
+            now = new Date(),
             future = new Date(),
             hours = parseInt($('.alarm_input.hour').val()),
             minutes = parseInt($('.alarm_input.minute').val());
         active["alarm"] = true;
 
-        $('.alarm_input').prop('disabled', true);
         $('.alarm_button.start').prop('disabled', true);
+        $('.alarm_input').prop('disabled', true);
         future.setHours(hours, minutes,0); 
         difference = future.getTime() - now.getTime();
 
@@ -405,6 +406,7 @@ $('.alarm_button').click(function(){
             future.setHours(hours + 24, minutes); 
             difference = future.getTime() - now.getTime();
         }
+
         if (hours > 12){
             am_pm = "PM";
             hours -= 12;
@@ -413,32 +415,39 @@ $('.alarm_button').click(function(){
             am_pm = "AM";
         }
 
-        $('#notification').append(
-            `<p id = "alarm_notification">Alarm set for ${padder(hours, 2)}:${padder(minutes, 2)} ${(am_pm)} </p>`);
+        var str = `<p id = 'alarm_notification'> ${padder((hours).toString(), 2)}:${padder((minutes).toString(), 2)} ${am_pm} Alarm set </p> </br>`;
+        
+
+        $('#notification').prepend(str);
+
+
         countdown["alarm"] = setTimeout(function(){
             active["alarm"] = false;
             $('.alarm_input').prop('disabled', false);
             $('.alarm_button.start').prop('disabled', false);
-            alert ("Finished placeholder");
             $('#alarm_notification').remove();
+            alert ("Finished placeholder");
         }, difference);
     }
     
     //Alarm Stop
-    else if (button_type === "stop"){
+    else {
         active["alarm"] = false;
-        clearTimeout(countdown["alarm"]);
+        $('.alarm_button.start').prop('disabled', false);
+        $('.alarm_input').prop('disabled', false);
         $('#alarm_notification').remove();
+
+        clearTimeout(countdown["alarm"]);
+        
+        //Alarm Clear 
+        if (button_type === "clear"){
+            var form = document.getElementById("alarm_form");
+            form.reset();
+        }
     }
 
-    //Alarm Clear 
-    else if (button_type === "clear"){
-        active["alarm"] = false;
-        clearTimeout(countdown["alarm"]);
-        $('#alarm_notification').remove();
-        var form = document.getElementById("alarm_form");
-        form.reset();        
-    }
+    
+
 });
 
 
