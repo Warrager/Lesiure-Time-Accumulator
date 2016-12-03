@@ -12,9 +12,9 @@
 <script type="text/javascript" src='file:///C:/Users/x7/Documents/Programming/html-css-js/jquery-3.1.1.min.js'></script>
 </head>
 <body>
-
-<div class= "container-fluid"> 
-    <div id = "main">
+<div id = "main">
+    <div class= "container-fluid"> 
+    <div id = "top">
         <h1> Leisure Time Accumulator </h1>
         <form class = "col-xs-12 col-md-12">
             <button type = "button" class = "accumulator_button reset"> Reset </button>
@@ -44,31 +44,36 @@
                 <h3 class = "counter break" id = "break_allowance">  </h3>
             </form>
         </div>
-
-        <form class = "col-xs-12 col-md-12" id = "bottom_toolbar">
+        
+        <div>
+          <form class = "col-xs-12 col-md-12" id = "bottom_toolbar">
             <button type = "button" class = "second_bar" id = "alarm_tab"> Alarm </button>
             <button type = "button" class = "second_bar" id = "alter_tab"> Alter </button>
             <button type = "button" class = "second_bar" id = "stopwatch_tab"> Stopwatch </button>
             <button type = "button" class = "second_bar" id = "timer_tab"> Timer </button>
-        </form>
-                
+            
+          </form>
+        </div>
+    </div>
+
+    <div id = "middle">
         <div class = "invisible tab" id = "alter_div">
-            <form class = "col-xs-12 col-md-12">
+            <div class = "col-xs-12 col-md-12">
                 <h3> Alter Work / Break </h3>
                 <input type = "text" class = "alter_input hour"/>
                 <p> : </p>
                 <input type = "text" class = "alter_input minute"/>
-            </form>
+            </div>
 
-            <form class = "col-xs-12 col-md-12">
+            <div class = "col-xs-12 col-md-12">
                 <button type = "button" class = "alter_1 work"> Work </button>
                 <button type = "button" class = "alter_1 break"> Break</button>
-            </form>
+            </div>
 
-            <form class = "col-xs-12 col-md-12">
+            <div class = "col-xs-12 col-md-12">
                 <button type = "button" class = "alter_2 increase"> Increase </button>
                 <button type = "button" class = "alter_2 decrease"> Decrease </button>
-            </form>
+            </div>
         </div>
 
         <div class = "invisible tab" id = "timer_div">
@@ -129,6 +134,7 @@
                 <button type = "button" class = "alarm_button clear"> Clear </button>
             </form>
         </div>
+    </div>
         
         <div class = "col-xs-12">
             <div id = "notification"> </div>
@@ -246,6 +252,7 @@ $('.second_bar').click(function(){
     var tab = ($(this).attr('id')).replace(/_tab/g, '');
     last_tab = tab;
     $("#" + tab + '_div').removeClass('invisible');
+    $("#" + tab + '_div').addClass('test');
 });
 
 
