@@ -164,6 +164,7 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
 //from previous session
 (function(){
     var temp_break_allowance = parseInt(localStorage.getItem('break_total')),
+        temp_work_total = parseInt(localStorage.getItem('work_total')),
         temp_break_val = parseInt(localStorage.getItem('break_val')),
         temp_work_val = parseInt(localStorage.getItem('work_val'));
 
@@ -173,6 +174,14 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
     else {
         $('#break_allowance').html(time_formatter(temp_break_allowance));
         counter["break"] = temp_break_allowance;
+    }
+
+    if (!temp_work_total){
+        $('#work_time').html("0:00:00");
+    }
+    else {
+        $('#work_time').html(time_formatter(temp_work_total));
+        counter["work"] = temp_work_total;
     }
 
     if (temp_break_val && temp_work_val){
@@ -185,6 +194,7 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
 //Saves currently accumulated break time and ratop to localstrorage.
 window.onbeforeunload = function() {
     localStorage.setItem('break_total', counter["break"]);
+    localStorage.setItem('work_total', counter["work"]);
     localStorage.setItem('break_val', parseInt($('#ratio-break').val()));
     localStorage.setItem('work_val', parseInt($('#ratio-work').val()));
 
@@ -222,13 +232,16 @@ $('.accumulator_button').click(function(){
 
     //Accumulator Reset
     if (button_type === "reset"){
-        if (!confirm("Will reset all accumulated break time.")){
+            //Will reset all accumulated break time
+        if (!confirm("Will reset ratio and total time worked.")){
             return;
         }
-        ratio = 0, counter["break"] = 0, counter["work"] = 0;
-        localStorage.setItem('break_total', 0)
-        $('.counter.break').html('0:00:00');
+        ratio = 0, counter["work"] = 0; //, counter["break"] = 0;
+        //localStorage.setItem('break_total', 0)s
+        //$('.counter.break').html('0:00:00');
         $('.counter.work').html('0:00:00');  
+        $('#ratio-break').val("");
+        $('#ratio-work').val("");
         return;
     }
     //Accumulator Change-Ratio
@@ -514,7 +527,7 @@ $('input').on('input', function(){
 });
 
 
-//Changes button color when active
+//Changes button color when active (only activates for two button bars)
 $('.alter_1, .second_bar').click(function(){
     $(this).siblings().removeClass('reverse_color');
     $(this).addClass('reverse_color');
