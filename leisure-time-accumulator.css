@@ -16,6 +16,10 @@
     max-width: 1000px;
 }
 
+.reverse_color{
+    color: white;
+}
+
 .tab {
     width: 100%;
     max-width: 960px;
@@ -48,7 +52,6 @@ input {
     border-radius: 5px;
     text-align:center;
 }
-
 
 
 input[type="button"]{ 
