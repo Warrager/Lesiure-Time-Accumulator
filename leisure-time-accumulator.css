@@ -1,18 +1,71 @@
+
 #main{
+    margin: 30px auto;
+    max-width: 970px;
     text-align:center;
+    padding: 0;
+    color: teal;
+}
+
+#top{
+    background-color: black;
+    border-radius: 20px;
+    border: solid silver 1px;
+    padding-bottom: 70px;
+    padding-top: 1px;
+    max-width: 1000px;
+}
+
+.reverse_color{
+    color: white;
+}
+
+.tab {
+    width: 100%;
+    max-width: 960px;
+    margin-top: 20px;
+    border-radius: 20px;
+    padding-bottom: 40px;
+    display: inline-block;
+    background-color: black;
+}
+
+#notification{
+    margin-top: 20px;
+    display: inline-block;
+    color: teal;
+    background-color: black;
+}
+
+button{
+    width: 100px;
+    background-color: black;
+    font-size: 18px;
+    padding: 10px 5px 0px 5px;
+    border: none;
+}
+
+input {
+    width: 50px;
+    background-color: black;
+    border: 1px solid teal;
+    border-radius: 5px;
+    text-align:center;
+}
+
+
+input[type="button"]{ 
+    /*color: red; */
+    font-size: 16px;
+    width: 100px;
 }
 
 .invisible{
 	display: none;
 }
 
-input {
-    width: 50px;
-    text-align:center;
-}
-
-button{
-    width: 100px;
+.accumulator_button.change-ratio{
+    vertical-align: top;
 }
 
 p{
@@ -21,8 +74,4 @@ p{
 
 .lap{
     display: block;
-}
-
-#ratio_div {
-    margin-top: 21px;
 }

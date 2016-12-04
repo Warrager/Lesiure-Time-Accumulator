@@ -8,23 +8,21 @@
 <link rel="stylesheet" type="text/css" href="leisure-time-accumulator.css" media="screen" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src= "extra.js"> </script>
+<script type="text/javascript" src = "sounds.js"> </script>
 <script type="text/javascript" src='file:///C:/Users/x7/Documents/Programming/html-css-js/jquery-3.1.1.min.js'></script>
 </head>
 <body>
-
-<div class= "container-fluid"> 
-    <div id = "main">
+<div id = "main">
+    <div class= "container-fluid"> 
+    <div id = "top">
         <h1> Leisure Time Accumulator </h1>
-
-        <div class = "row">
-            <form class = "col-xs-12 col-md-12">
-                <button type = "button" class = "accumulator_button reset"> Reset </button>
-                <button type = "button" class = "accumulator_button work"> Work </button>
-                <button type = "button" class = "accumulator_button pause"> Pause </button>
-                <button type = "button" class = "accumulator_button break"> Break </button>
-                <button type = "button" class = "accumulator_button change-ratio"> Change Ratio </button>
-            </form> 
-        </div>   
+        <form class = "col-xs-12 col-md-12">
+            <button type = "button" class = "accumulator_button reset"> Reset </button>
+            <button type = "button" class = "accumulator_button work"> Work </button>
+            <button type = "button" class = "accumulator_button pause"> Pause </button>
+            <button type = "button" class = "accumulator_button break"> Break </button>
+            <button type = "button" class = "accumulator_button change-ratio"> Change Ratio </button>
+        </form>   
 
         <div class = "row">
             <div class = "col-xs-12 col-md-4">
@@ -46,92 +44,75 @@
                 <h3 class = "counter break" id = "break_allowance">  </h3>
             </form>
         </div>
-
-        <div class = "row">
-            <form class = "col-xs-12 col-md-12" id = "bottom_toolbar">
-                <button type = "button" class = "button alter work"> Alter Work </button>
-                <button type = "button" class = "button alarm"> Alarm </button>
-                <button type = "button" class = "button stopwatch"> Stopwatch </button>
-                <button type = "button" class = "button timer"> Timer </button>
-                <button type = "button" class = "button alter break"> Alter Break </button>
-            </form>
+        
+        <div>
+          <form class = "col-xs-12 col-md-12" id = "bottom_toolbar">
+            <button type = "button" class = "second_bar" id = "alarm_tab"> Alarm </button>
+            <button type = "button" class = "second_bar" id = "alter_tab"> Alter </button>
+            <button type = "button" class = "second_bar" id = "stopwatch_tab"> Stopwatch </button>
+            <button type = "button" class = "second_bar" id = "timer_tab"> Timer </button>
+            
+          </form>
         </div>
+    </div>
 
-        <div class = "row">
-            <form class = "col-xs-12 col-md-12">
-                <form>
-                    <h3> Alter Work / Break </h3>
-                    <input type = "text" class = "alter hour"/>
-                    <p> : </p>
-                    <input type = "text" class = "alter minute"/>
-                </form>
-            </form>
-        </div>
+    <div id = "middle">
+        <div class = "invisible tab" id = "alter_div">
+            <div class = "col-xs-12 col-md-12">
+                <h3> Alter Work / Break </h3>
+                <input type = "text" class = "alter_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "alter_input minute"/>
+            </div>
 
-        <div class = "row">
             <div class = "col-xs-12 col-md-12">
                 <button type = "button" class = "alter_1 work"> Work </button>
                 <button type = "button" class = "alter_1 break"> Break</button>
             </div>
-        </div>
 
-        <div class = "row">
             <div class = "col-xs-12 col-md-12">
                 <button type = "button" class = "alter_2 increase"> Increase </button>
                 <button type = "button" class = "alter_2 decrease"> Decrease </button>
             </div>
         </div>
 
-        <div class = "row">
-            <div class = "col-xs-12 col-md-12">
-                <form id = "timer_form">
-                    <h3> Timer </h3>
-                    <input type = "text" class = "timer_input hour"/>
-                    <p> : </p>
-                    <input type = "text" class = "timer_input minute"/>
-                    <p> : </p>
-                    <input type = "text" class = "timer_input second"/>
-                </form>
-            </div>
-        </div>
+        <div class = "invisible tab" id = "timer_div">
+            <h3> Timer </h3>
+            <form class = "col-xs-12 col-md-12" id = "timer_input_form">
+                <input type = "text" class = "timer_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "timer_input minute"/>
+                <p> : </p>
+                <input type = "text" class = "timer_input second"/>
+            </form>
 
-
-        <div class = "row">
             <div class = "col-xs-12">
-                <form>
-                    <button type = "button" class = "timer_button start"> Start </button>
-                    <button type = "button" class = "timer_button pause"> Pause </button>
-                    <button type = "button" class = "timer_button stop"> Stop  </button>
-                    <button type = "button" class = "timer_button clear"> Clear </button>
-                </form>
+                <h3 class = "invisible" id = "timer_display"> 0:00:00 </h3>
             </div>
+
+            <form class = "col-xs-12">
+                <button type = "button" class = "timer_button start"> Start </button>
+                <button type = "button" class = "timer_button pause"> Pause </button>
+                <button type = "button" class = "timer_button stop"> Stop  </button>
+                <button type = "button" class = "timer_button clear"> Clear </button>
+            </form>
+
+            
         </div>
 
-        <div class = "row">
-            <div class = "col-xs-12">
-                <h3 id = "timer_display"> 0:00:00 </h3>
-            </div>
-        </div>
-
-        <div class = "row">
+        <div class = "invisible tab" id = "stopwatch_div">
             <div class = "col-xs-12">
                 <h3> Stopwatch </h3>
                 <h3 id = "stopwatch_display"> 0:00:00 </h3>
             </div>
-        </div>
+    
+            <form class = "col-xs-12">
+                <button type = "button" class = "stopwatch_button start"> Start </button>
+                <button type = "button" class = "stopwatch_button pause"> Pause </button>
+                <button type = "button" class = "stopwatch_button stop"> Stop </button>
+                <button type = "button" class = "stopwatch_button lap_button"> Lap </button>
+            </form>
 
-        <div class = "row">
-            <div class = "col-xs-12">
-                <form>
-                    <button type = "button" class = "stopwatch start"> Start </button>
-                    <button type = "button" class = "stopwatch pause"> Pause </button>
-                    <button type = "button" class = "stopwatch stop"> Stop </button>
-                    <button type = "button" class = "stopwatch lap_button"> Lap </button>
-                </form>
-            </div>
-        </div>
-
-        <div class = "row">
             <div class = "col-xs-12">
                 <div id = "laps">
 
@@ -139,30 +120,25 @@
             </div>
         </div>
 
-        <div class = "row">
-            <div class = "col-xs-12">
-                <form id = "alarm_form">
-                    <h3> Alarm Clock </h3>
-                    <input type = "text" class = "alarm hour"/>
-                    <p> : </p>
-                    <input type = "text" class = "alarm minute"/>
-                </form>
-            </div>
-        </div>
+        <div class = "invisible tab" id = "alarm_div">
+            <form class = "col-xs-12" id = "alarm_form">
+                <h3> 24 Hour Alarm Clock </h3>
+                <input type = "text" class = "alarm_input hour"/>
+                <p> : </p>
+                <input type = "text" class = "alarm_input minute"/>
+            </form>
 
-        <div class = "row">
-            <div class = "col-xs-12">
-                <button type = "button" class = "alarm start"> Start </button>
-                <button type = "button" class = "alarm stop"> Stop </button>
-                <button type = "button" class = "alarm clear"> Clear </button>
-            </div>
+            <form class = "col-xs-12">
+                <button type = "button" class = "alarm_button start"> Start </button>
+                <button type = "button" class = "alarm_button stop"> Stop </button>
+                <button type = "button" class = "alarm_button clear"> Clear </button>
+            </form>
         </div>
+    </div>
         
-        <div class = "row">
-            <div class = "col-xs-12">
-                <h3 id = "notification"> </h3>
-            </div>        
-        </div>
+        <div class = "col-xs-12">
+            <div id = "notification"> </div>
+        </div>        
     </div>
 </div>
 <script>
@@ -180,22 +156,49 @@ var counter = {"break": 0, "work": 0, "timer": 0, "stopwatch": 0},
     time_unit = ['hour','minute','second'],
     time_multiplier = [3600, 60, 1],
     ratio = 0,
-    timer,
-    //alarm,
+    last_tab = "",
     alter = "";
 
-var temp = parseInt(localStorage.getItem('break_total'));
-if (!temp){
-    $('#break_allowance').html("0:00:00");
-}
-else {
-    $('#break_allowance').html(time_formatter(temp));
-    counter["break"] = temp;
-}
 
+//Displays accumulated break time and the break:work ratio rolled over
+//from previous session
+(function(){
+    var temp_break_allowance = parseInt(localStorage.getItem('break_total')),
+        temp_work_total = parseInt(localStorage.getItem('work_total')),
+        temp_break_val = parseInt(localStorage.getItem('break_val')),
+        temp_work_val = parseInt(localStorage.getItem('work_val'));
 
+    if (!temp_break_allowance){
+        $('#break_allowance').html("0:00:00");
+    }
+    else {
+        $('#break_allowance').html(time_formatter(temp_break_allowance));
+        counter["break"] = temp_break_allowance;
+    }
+
+    if (!temp_work_total){
+        $('#work_time').html("0:00:00");
+    }
+    else {
+        $('#work_time').html(time_formatter(temp_work_total));
+        counter["work"] = temp_work_total;
+    }
+
+    if (temp_break_val && temp_work_val){
+        $('#ratio-break').val(temp_break_val);
+        $('#ratio-work').val(temp_work_val);
+    }
+
+}());
+
+//Saves currently accumulated break time and ratop to localstrorage.
 window.onbeforeunload = function() {
     localStorage.setItem('break_total', counter["break"]);
+    localStorage.setItem('work_total', counter["work"]);
+    localStorage.setItem('break_val', parseInt($('#ratio-break').val()));
+    localStorage.setItem('work_val', parseInt($('#ratio-work').val()));
+
+    $("input:text").val(""); //Clears fields if user refreshes page
 }
 
 
@@ -217,8 +220,10 @@ function increment_counter(counter_type, ratio){
 //Accumulator 
 $('.accumulator_button').click(function(){
     var button_type = $(this)[0].classList[1];
+    $(this).siblings().removeClass('reverse_color');
     $('.accumulator_button').prop('disabled',false);
     $('.accumulator_input').prop('disabled', false);
+    
 
     if (active["accumulator"]){
         active["accumulator"] = false;
@@ -227,11 +232,16 @@ $('.accumulator_button').click(function(){
 
     //Accumulator Reset
     if (button_type === "reset"){
-        confirm("Will reset all accumulated break time.");
-        ratio = 0, counter["break"] = 0, counter["work"] = 0;
-        localStorage.setItem('break_total', 0)
-        $('.counter.break').html('0:00:00');
+            //Will reset all accumulated break time
+        if (!confirm("Will reset ratio and total time worked.")){
+            return;
+        }
+        ratio = 0, counter["work"] = 0; //, counter["break"] = 0;
+        //localStorage.setItem('break_total', 0)s
+        //$('.counter.break').html('0:00:00');
         $('.counter.work').html('0:00:00');  
+        $('#ratio-break').val("");
+        $('#ratio-work').val("");
         return;
     }
     //Accumulator Change-Ratio
@@ -241,7 +251,9 @@ $('.accumulator_button').click(function(){
     }
     //Accumulator Pause
     if (button_type === 'pause'){
-        $('.accumulator_input').prop('disabled', true);
+        if (active["accumulator"]){
+            $('.accumulator_input').prop('disabled', true);
+        }
         return;
     }
     //Accumulator Break / Work
@@ -254,13 +266,27 @@ $('.accumulator_button').click(function(){
             return;
         }
     }
-    active["accumulator"] = true;
+    $(this).siblings().removeClass('reverse_color');
+    $(this).addClass('reverse_color');
+
     $(this).prop('disabled', true);
     $('.accumulator_input').prop('disabled', true);
 
+    active["accumulator"] = true;
+    
     countdown["accumulator"] = setInterval(function() { 
         increment_counter(button_type, ratio) 
     },1000);
+});
+
+
+//Bottom_Bar
+$('.second_bar').click(function(){
+    $("#" + last_tab + '_div').addClass('invisible');
+    var tab = ($(this).attr('id')).replace(/_tab/g, '');
+    last_tab = tab;
+    $("#" + tab + '_div').removeClass('invisible');
+    $("#" + tab + '_div').addClass('test');
 });
 
 
@@ -272,8 +298,8 @@ $('.alter_1').click(function(){
 $('.alter_2').click(function(){
     var seconds = 0;
     for (let x = 0; x < 2; x++){
-        if ($('.alter.'+time_unit[x]).val()){
-            seconds += parseInt($('.alter.'+time_unit[x]).val()) * time_multiplier[x];
+        if ($('.alter_input.'+time_unit[x]).val()){
+            seconds += parseInt($('.alter_input.'+time_unit[x]).val()) * time_multiplier[x];
         }
     }
     $(this)[0].classList[1] === "increase" ? counter[alter] += seconds : counter[alter]-= seconds;
@@ -284,12 +310,9 @@ $('.alter_2').click(function(){
 //Timer
 $('.timer_button').click(function(){
     var button_type = $(this)[0].classList[1];
-    $('.timer_input').prop('disabled', true);
-    $('.timer_button.start').prop('disabled', false);
+
     //Timer Start
     if (button_type === "start"){
-        active["timer"] = true;
-        $('.timer_button.start').prop('disabled', true);
         if (!counter["timer"]){
             for (let x = 0; x < 3; x++){
                 if ($('.timer_input.'+time_unit[x]).val()){
@@ -297,42 +320,70 @@ $('.timer_button').click(function(){
                 }
             }
         }
+        if (counter["timer"].isNaN || counter["timer"] === 0){
+            return;
+        }
+
+        active["timer"] = true;
+        $('.timer_input').prop('disabled', true);
+        $('.timer_button.start').prop('disabled', true);
+        $('#timer_display').html(time_formatter(counter["timer"]));
+
+        //Countdown
         countdown["timer"] = setInterval(function() { 
-            $('#timer_display').html(time_formatter(counter["timer"]));
             counter["timer"] -= 1;
+            $('#timer_display').html(time_formatter(counter["timer"]));
+
+            //When finished, start timer song, and creates a stop song button
+            if (counter["timer"] === 0){
+                alarm_song.play();
+                $('.timer_button').prop('disabled', true);
+                clearInterval(countdown["timer"]);
+                $('#notification').append('<button type = "button" class = "finished" id = "timer"> Timer Finished </button>');
+                $('.finished').addClass('test');
+        }
         },1000);
+        $('#timer_input_form').addClass('invisible');
+        $('#timer_display').removeClass('invisible');
         return;
     }
 
     //Timer Pause
-    if (active["timer"]){
+    else {
+        $('.timer_button.start').prop('disabled', false);
+        if (!active["timer"]){
+            $('.timer_input').prop('disabled', false);
+        }
         active["timer"] = false;
         clearInterval(countdown["timer"]);
-        
-    }
-    //Timer Stop
-    if (button_type !== "pause"){
-        counter["timer"] = 0;
-        $('#timer_display').html("0:00:00");
-        $('.timer_input').prop('disabled', false);
 
-        //Timer Clear
-        if (button_type === "clear"){
-            var form = document.getElementById("timer_form");
-            form.reset();
+        //Timer Stop
+        if (button_type !== "pause"){
+            counter["timer"] = 0;
+            $('#timer_display').html("0:00:00");
+            $('.timer_input').prop('disabled', false);
+            $('#timer_input_form').removeClass('invisible');
+            $('#timer_display').addClass('invisible');
+
+            //Timer Clear
+            if (button_type === "clear"){
+                var form = document.getElementById("timer_input_form");
+                form.reset();
+            }
         }
     }
 });
 
 
 //Stopwatch
-$('.stopwatch').click(function(){
+$('.stopwatch_button').click(function(){
     var button_type = $(this)[0].classList[1];
-    $('.stopwatch').prop('disabled', false);
+    $('.stopwatch_button').prop('disabled', false);
+
     //Stopwatch Start
     if (button_type === "start"){
         active["stopwatch"] = true;
-        $('.stopwatch.start').prop('disabled', true);
+        $('.stopwatch_button.start').prop('disabled', true);
         stopwatch = setInterval(function() { 
             counter["stopwatch"] += 1;
             $('#stopwatch_display').html(time_formatter(counter["stopwatch"], true));       
@@ -358,40 +409,43 @@ $('.stopwatch').click(function(){
         active["stopwatch"] = false;
         clearInterval(stopwatch);
     }
+
     //Stopwatch Stop
     if (button_type === "stop"){
+        counter["stopwatch"] = 0;
         $('#stopwatch_display').html('0:00:00');
         $('#laps').empty();
     }
-    
 });
 
 
 //Alarm
-$('.alarm.hour').on('input', function(){
-    if (parseInt($(this).val()) > 24){
-        $(this).val("");
-    }
-});
-$('.alarm.minute').on('input', function(){
-    if (parseInt($(this).val()) > 59){
-        $(this).val("");
-    }
-});
-
-$('.alarm').click(function(){
+$('.alarm_button').click(function(){
     var button_type = $(this)[0].classList[1];
+    
     //Alarm Start
     if (button_type === 'start'){
-        if (active["alarm"]){
-            return;
-        }
-        var now = new Date(),
+        var am_pm,
+            now = new Date(),
             future = new Date(),
-            hours = parseInt($('.alarm.hour').val()),
-            minutes = parseInt($('.alarm.minute').val());
+            hours = parseInt($('.alarm_input.hour').val()),
+            minutes = parseInt($('.alarm_input.minute').val());
         active["alarm"] = true;
 
+        if (isNaN(hours) && isNaN(minutes)){
+            return;
+        }
+
+        hours = hours || 0;
+        minutes = minutes || 0;
+
+        $('.alarm_input.hour').val(padder(hours.toString(),2));
+        $('.alarm_input.minute').val(padder(minutes.toString(),2));
+        
+        $('.alarm_button.start').prop('disabled', true);
+        $('.alarm_input').prop('disabled', true);
+
+        //Set timer
         future.setHours(hours, minutes,0); 
         difference = future.getTime() - now.getTime();
 
@@ -399,43 +453,86 @@ $('.alarm').click(function(){
             future.setHours(hours + 24, minutes); 
             difference = future.getTime() - now.getTime();
         }
-        $('#notification').append("<p> alarm active </p>");
+
+        if (hours > 12){
+            am_pm = "PM";
+            hours -= 12;
+        } 
+        else {
+            am_pm = "AM";
+        }
+
+        var str = `<p id = 'alarm_notification'> Alarm set for ${padder((hours).toString(), 2)}:${padder((minutes).toString(), 2)} ${am_pm} </br> </p> `;
+        $('#notification').prepend(str);
+
         countdown["alarm"] = setTimeout(function(){
             active["alarm"] = false;
-            alert ("Finished placeholder");
-        }, difference);
+            alarm_song.play();
+            $('.alarm_input').prop('disabled', false);
+            $('.alarm_button.start').prop('disabled', false);
+            $('#alarm_notification').remove();
+            $('#notification').append("<button type = 'button' class = 'finished' id = 'alarm'> Alarm Finished </button>");
+            $('.finished').addClass('test');
+         }, difference);
     }
+    
     //Alarm Stop
-    else if (button_type === "stop"){
+    else {
         active["alarm"] = false;
-        clearTimeout(countdown["alarm"]);
-        $('#notification').empty();
-    }
-    //Alarm Clear 
-    else if (button_type === "clear"){
-        active["alarm"] = false;
-        clearTimeout(countdown["alarm"]);
-        $('#notification').empty();
-        var form = document.getElementById("alarm_form");
-        form.reset();        
-    }
-});
+        $('.alarm_button.start').prop('disabled', false);
+        $('.alarm_input').prop('disabled', false);
+        $('#alarm_notification').remove();
 
-
-//Checks if inputted value is an int
-var num_arr = ['1','2','3','4','5','6','7','8','9','0'];
-$('input').on('input', function(){
-    var input = $(this).val();
-    if (input.length > 2){
-        $(this).val(input.slice(input.length - 2));
-    }
-    for (var x = 0, y = input.length; x < y; x++){
-        if (num_arr.indexOf(input[x]) === -1){
-            $(this).val("");
+        clearTimeout(countdown["alarm"]);
+        
+        //Alarm Clear 
+        if (button_type === "clear"){
+            var form = document.getElementById("alarm_form");
+            form.reset();
         }
     }
 });
 
+//Stops song when clicked on
+$('#notification').on ('click', '.finished', function(){
+    var id = "." + $(this).attr('id') + "_";
+    $(id + 'button').prop('disabled', false);
+    $(id + 'input').prop('disabled', false);
+    alarm_song.pause();
+    alarm_song.currentTime = 0;
+    $(this).remove();
+    if (id = ".timer_"){
+        $('#timer_input_form').removeClass('invisible');
+        $('#timer_display').addClass('invisible');
+    }
+});
+
+
+//Input Checking
+$('input').on('input', function(){
+    var pos = $(this)[0].classList[1],
+        input = ($(this).val()).replace(/[^0-9]/g, ''),
+        filtered = input.slice(input.length - 2);
+    if (((parseInt(input) > 60)) && ((pos === "second") || (pos === "minute"))){
+        $(this).val(filtered.slice(-1));
+        return;
+    }
+    if (($(this)[0].classList[0] === "alarm_input") &&
+        (pos === "hour") && (parseInt(filtered) > 24)){
+
+        $(this).val(filtered.slice(-1));
+        return;    
+    }
+    $(this).val(filtered);
+});
+
+
+//Changes button color when active (only activates for two button bars)
+$('.alter_1, .second_bar').click(function(){
+    $(this).siblings().removeClass('reverse_color');
+    $(this).addClass('reverse_color');
+
+})
 
 </script>
 </body>
